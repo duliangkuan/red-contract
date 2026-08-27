@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">红色契约批量 Red Skill 发布架构</title>
+  <desc id="desc">从选题清单经过调研、构建、审计、GitHub 推送、dry-run 和人工确认到最终提交的保守流程。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#08090d"/>
+      <stop offset="1" stop-color="#14101a"/>
+    </linearGradient>
+    <linearGradient id="red" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff4d67"/>
+      <stop offset="1" stop-color="#ff2442"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#ff6b81"/>
+    </marker>
+    <marker id="arrowMuted" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#7d8597"/>
+    </marker>
+    <style>
+      .title { font: 700 42px "Microsoft YaHei", "PingFang SC", sans-serif; fill: #ffffff; }
+      .subtitle { font: 400 20px "Microsoft YaHei", "PingFang SC", sans-serif; fill: #aeb4c2; }
+      .step { font: 700 24px "Microsoft YaHei", "PingFang SC", sans-serif; fill: #ffffff; }
+      .detail { font: 400 16px "Microsoft YaHei", "PingFang SC", sans-serif; fill: #c7cbd4; }
+      .tiny { font: 500 14px "Microsoft YaHei", "PingFang SC", sans-serif; fill: #9aa1b1; }
+      .number { font: 800 24px "Microsoft YaHei", sans-serif; fill: #ffffff; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="900" rx="28" fill="url(#bg)"/>
+  <circle cx="1460" cy="90" r="180" fill="#ff2442" opacity="0.08"/>
+  <circle cx="140" cy="810" r="220" fill="#5de4c7" opacity="0.05"/>
+
+  <text x="800" y="72" text-anchor="middle" class="title">红色契约 · 批量 Red Skill 发布链</text>
+  <text x="800" y="108" text-anchor="middle" class="subtitle">先调研，再构建；先验证，再公开；先 dry-run，再由人确认提交</text>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="175" width="250" height="150" rx="22" fill="#171a22" stroke="#353a49" stroke-width="2"/>
+    <circle cx="108" cy="213" r="23" fill="url(#red)"/>
+    <text x="108" y="221" text-anchor="middle" class="number">1</text>
+    <text x="150" y="221" class="step">选题清单</text>
+    <text x="100" y="260" class="detail">中文展示名 · 技术 ID</text>
+    <text x="100" y="288" class="detail">用途 · 风险 · 原创性</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="380" y="175" width="250" height="150" rx="22" fill="#171a22" stroke="#ff4d67" stroke-width="2"/>
+    <circle cx="418" cy="213" r="23" fill="url(#red)"/>
+    <text x="418" y="221" text-anchor="middle" class="number">2</text>
+    <text x="460" y="221" class="step">调研证据门</text>
+    <text x="410" y="260" class="detail">路线 A：样本反推</text>
+    <text x="410" y="288" class="detail">路线 B：公开调研</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="690" y="175" width="250" height="150" rx="22" fill="#171a22" stroke="#353a49" stroke-width="2"/>
+    <circle cx="728" cy="213" r="23" fill="url(#red)"/>
+    <text x="728" y="221" text-anchor="middle" class="number">3</text>
+    <text x="770" y="221" class="step">最小化构建</text>
+    <text x="720" y="260" class="detail">自包含 · 可移植</text>
+    <text x="720" y="288" class="detail">无隐藏私人依赖</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="1000" y="175" width="250" height="150" rx="22" fill="#171a22" stroke="#ff4d67" stroke-width="2"/>
+    <circle cx="1038" cy="213" r="23" fill="url(#red)"/>
+    <text x="1038" y="221" text-anchor="middle" class="number">4</text>
+    <text x="1080" y="221" class="step">审计与测试</text>
+    <text x="1030" y="260" class="detail">结构 · 安全 · 许可</text>
+    <text x="1030" y="288" class="detail">正例 · 反例 · 失败输入</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="1310" y="175" width="220" height="150" rx="22" fill="#171a22" stroke="#353a49" stroke-width="2"/>
+    <circle cx="1348" cy="213" r="23" fill="url(#red)"/>
+    <text x="1348" y="221" text-anchor="middle" class="number">5</text>
+    <text x="1390" y="221" class="step">公开仓库</text>
+    <text x="1340" y="260" class="detail">同名 GitHub 仓库</text>
+    <text x="1340" y="288" class="detail">扫描后推送</text>
+  </g>
+
+  <path d="M320 250 H370" stroke="#ff6b81" stroke-width="4" marker-end="url(#arrow)"/>
+  <path d="M630 250 H680" stroke="#ff6b81" stroke-width="4" marker-end="url(#arrow)"/>
+  <path d="M940 250 H990" stroke="#ff6b81" stroke-width="4" marker-end="url(#arrow)"/>
+  <path d="M1250 250 H1300" stroke="#ff6b81" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="1070" y="465" width="300" height="155" rx="22" fill="#171a22" stroke="#ff4d67" stroke-width="2"/>
+    <circle cx="1110" cy="505" r="23" fill="url(#red)"/>
+    <text x="1110" y="513" text-anchor="middle" class="number">6</text>
+    <text x="1152" y="513" class="step">命令行 dry-run</text>
+    <text x="1105" y="552" class="detail">展示中文名称与描述</text>
+    <text x="1105" y="580" class="detail">版本 · 标签 · 原创性</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="620" y="465" width="330" height="155" rx="22" fill="#20151b" stroke="#ff2442" stroke-width="3"/>
+    <circle cx="662" cy="505" r="23" fill="url(#red)"/>
+    <text x="662" y="513" text-anchor="middle" class="number">7</text>
+    <text x="704" y="513" class="step">人工确认闸门</text>
+    <text x="655" y="552" class="detail">仅接受：提交 / 确认 / submit</text>
+    <text x="655" y="580" class="detail">登录成功 ≠ 提交授权</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="220" y="465" width="280" height="155" rx="22" fill="url(#red)"/>
+    <circle cx="262" cy="505" r="23" fill="#ffffff" opacity="0.2"/>
+    <text x="262" y="513" text-anchor="middle" class="number">8</text>
+    <text x="304" y="513" class="step">最终提交</text>
+    <text x="255" y="552" class="detail" style="fill:#ffffff">逐项提交 · 留存结果</text>
+    <text x="255" y="580" class="detail" style="fill:#ffffff">失败即停止，不绕过校验</text>
+  </g>
+
+  <path d="M1420 325 V390 Q1420 410 1400 410 H1240 Q1220 410 1220 455" fill="none" stroke="#ff6b81" stroke-width="4" marker-end="url(#arrow)"/>
+  <path d="M1070 542 H960" stroke="#ff6b81" stroke-width="4" marker-end="url(#arrow)"/>
+  <path d="M620 542 H510" stroke="#ff6b81" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="610" y="720" width="380" height="100" rx="20" fill="#12151c" stroke="#7d8597" stroke-width="2" stroke-dasharray="8 7"/>
+    <text x="800" y="760" text-anchor="middle" class="step" style="fill:#c7cbd4">HOLD · 暂停候选</text>
+    <text x="800" y="791" text-anchor="middle" class="detail">证据、许可、依赖、测试或授权任一不清楚</text>
+  </g>
+
+  <path d="M1125 325 V675 Q1125 695 1105 695 H1000 Q980 695 980 710" fill="none" stroke="#7d8597" stroke-width="3" stroke-dasharray="8 7" marker-end="url(#arrowMuted)"/>
+  <text x="1142" y="675" class="tiny">审计未通过</text>
+  <path d="M785 620 V710" fill="none" stroke="#7d8597" stroke-width="3" stroke-dasharray="8 7" marker-end="url(#arrowMuted)"/>
+  <text x="800" y="672" class="tiny">未明确确认</text>
+
+  <rect x="70" y="842" width="1460" height="2" fill="#2b2f3a"/>
+  <text x="70" y="875" class="tiny">红色契约 v1.2.0 · 风云 · github.com/duliangkuan/red-contract</text>
+  <text x="1530" y="875" text-anchor="end" class="tiny">默认中文展示 · 机器标识与用户标题分离</text>
+</svg>
