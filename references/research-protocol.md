@@ -54,10 +54,11 @@
 
 ```yaml
 skill_id: stable-kebab-case-id
+display_name_zh: 清楚自然的中文展示名
 version: 1.0.0
 parent_version: null
 research_route: A | B | mixed
-purpose: 一句话真实用途
+purpose_zh: 中文一句话真实用途
 triggers: [正向触发]
 non_triggers: [反向触发]
 inputs: [必要输入]
@@ -83,6 +84,7 @@ confidence_state: cold-start | evidence-backed | field-validated
 
 - 每条核心规则至少能追溯到一个证据 ID；H 级只能写成可关闭或可验证的实验行为。
 - `description` 写明“做什么 + 何时使用”，不要塞实现史和宣传语。
+- 面向用户的名称、介绍与输出默认写中文；`skill_id`、目录名和 frontmatter `name` 只承担机器标识职责。
 - 正向触发、反向触发和与相邻 Skill 的差异必须进入 `SKILL.md`。
 - 主文件目标不超过 300 行；细节按需放入 `references/`，脚本只承载确定性逻辑。
 - 命令必须能直接执行；说明性伪代码不能冒充执行步骤。

@@ -1,7 +1,7 @@
 ---
 name: red-contract
 description: 红色契约：面向小红书 Red Skill 的保守批量构建与发布前审计协议。当用户说“红色契约”、要求批量新建 Red Skill、一天制作多个 Skill，或要求按 Red Skill 规范从选题推进到 dry-run 时使用；默认创建同名公开 GitHub 仓库，但最终 Red Skill 提交必须再次获得明确确认。
-version: "1.1.0"
+version: "1.2.0"
 author: 风云
 ---
 
@@ -44,6 +44,15 @@ author: 风云
 
 调研路线、证据等级、差异化核查和内部设计记录格式见 [references/research-protocol.md](references/research-protocol.md)。
 
+## 中文命名与表达
+
+- 面向用户展示的 Skill 名称必须使用清楚、自然、能直接看懂用途的中文，不默认使用英文名或中英混排名称。
+- 发布简介、功能介绍、使用说明、输入输出说明、错误提示、dry-run 展示和 GitHub 仓库简介默认使用中文。
+- 机器标识与展示名称分离：目录名、Skill ID 和 frontmatter `name` 仍使用稳定的 kebab-case 技术标识；它们不作为面向用户的标题。
+- 只有代码、命令、API、包名、协议名、标准字段、品牌官方名称或没有准确中文译名的专有名词可以保留英文。
+- 专有名词确需英文时，优先在首次出现写“中文名称（英文原名）”，后续使用中文或行业通行简称。
+- 不为了显得专业堆叠英文缩写，不把可自然表达的中文介绍写成英文直译腔。
+
 ## 批量流程
 
 ### 0. 调研与证据
@@ -52,7 +61,7 @@ author: 风云
 
 ### 1. 建立清单
 
-为每个选题记录：`name`、一句话用途、输入、输出、原创性、依赖、风险、推荐标签、证据路线、置信状态、版本血缘和状态。状态只能是 `idea`、`researching`、`building`、`tested`、`dry-run`、`submitted`、`hold`。
+为每个选题记录：中文展示名、技术 Skill ID、中文一句话用途、输入、输出、原创性、依赖、风险、推荐标签、证据路线、置信状态、版本血缘和状态。状态只能是 `idea`、`researching`、`building`、`tested`、`dry-run`、`submitted`、`hold`。
 
 ### 2. 选择最小形态
 
@@ -63,7 +72,7 @@ author: 风云
 
 ### 3. 创建 Skill
 
-目录名和 frontmatter `name` 使用同一个、长期稳定的 kebab-case Skill ID。`SKILL.md` 至少包含清晰 description、version、author、输入、输出、工作流、错误处理、正反触发边界与隐私说明。复杂细节放入 `references/`；重复且必须可靠的逻辑放入 `scripts/`。升级时保留 Git 历史并记录父版本或变更依据，不通过改名伪造新 Skill。
+先确定中文展示名，再为机器生成对应的稳定 kebab-case Skill ID。目录名和 frontmatter `name` 使用同一个技术 ID；面向用户的发布名称和介绍使用中文。`SKILL.md` 至少包含清晰 description、version、author、输入、输出、工作流、错误处理、正反触发边界与隐私说明。复杂细节放入 `references/`；重复且必须可靠的逻辑放入 `scripts/`。升级时保留 Git 历史并记录父版本或变更依据，不通过改名伪造新 Skill。
 
 ### 4. 验证
 
@@ -81,7 +90,7 @@ node scripts/audit-skill.mjs <skill-directory>
 
 ### 6. Red Skill dry-run
 
-如果环境中存在 `redskillhub-upload` Skill，严格按其规范执行版本门禁、实时标签获取、来源与标签确认以及 CLI dry-run。批量汇总每个载荷的名称、Skill ID、版本、描述、原创性和中文标签。
+如果环境中存在 `redskillhub-upload` Skill，严格按其规范执行版本门禁、实时标签获取、来源与标签确认以及 CLI dry-run。上传载荷中的名称和描述使用中文；批量汇总每个载荷的中文名称、技术 Skill ID、版本、中文描述、原创性和中文标签。
 
 ### 7. 最终提交闸门
 
