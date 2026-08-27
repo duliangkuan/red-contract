@@ -10,6 +10,8 @@ if (!target || !fs.existsSync(target) || !fs.statSync(target).isDirectory()) {
 }
 
 const ignoredDirs = new Set([".git", "node_modules", "dist", "build", "__pycache__"]);
+const researchDirs = new Set(["_research", "research", "corpus"]);
+const runtimeArtifactDirs = new Set(["output", "outputs", "logs", "cache", "backup", "backups", "tmp", "temp"]);
 const textExtensions = new Set([".md", ".txt", ".json", ".yaml", ".yml", ".js", ".mjs", ".cjs", ".ts", ".py"]);
 const findings = [];
 
@@ -22,7 +24,16 @@ function walk(dir) {
     if (entry.name.startsWith(".") && entry.name !== ".gitignore") continue;
     if (entry.isDirectory() && ignoredDirs.has(entry.name)) continue;
     const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) walk(full);
+    if (entry.isDirectory()) {
+      const normalized = entry.name.toLowerCase();
+      if (researchDirs.has(normalized)) {
+        add("medium", "bundled-research-artifacts", full, 0, "发现研究材料目录，确认其运行必需且具有公开权利");
+      }
+      if (runtimeArtifactDirs.has(normalized)) {
+        add("medium", "bundled-runtime-artifacts", full, 0, "发现输出、缓存、日志、备份或临时目录");
+      }
+      walk(full);
+    }
     else if (entry.isFile()) scanFile(full);
   }
 }
@@ -62,6 +73,12 @@ if (!fs.existsSync(skillFile)) {
   add("high", "missing-skill-md", skillFile, 0, "缺少 SKILL.md");
 } else {
   const source = fs.readFileSync(skillFile, "utf8");
+  const lineCount = source.split(/\r?\n/).length;
+  if (lineCount > 500) {
+    add("high", "skill-md-too-long", skillFile, 1, `SKILL.md 共 ${lineCount} 行，超过 500 行硬上限`);
+  } else if (lineCount > 300) {
+    add("medium", "skill-md-needs-split", skillFile, 1, `SKILL.md 共 ${lineCount} 行，建议拆到 references/`);
+  }
   const fm = source.match(/^---\s*\r?\n([\s\S]*?)\r?\n---/);
   if (!fm) add("high", "invalid-frontmatter", skillFile, 1, "缺少 YAML frontmatter");
   else {

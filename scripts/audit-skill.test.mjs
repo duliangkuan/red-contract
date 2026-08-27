@@ -37,4 +37,21 @@ function audit(dir) {
   assert.ok(result.json.findings.some((x) => x.rule === "embedded-secret"));
 }
 
+{
+  const dir = fixture("调研材料不应默认进入公开包。");
+  fs.mkdirSync(path.join(dir, "_research"));
+  fs.writeFileSync(path.join(dir, "_research", "notes.md"), "private notes");
+  const result = audit(dir);
+  assert.equal(result.code, 0);
+  assert.equal(result.json.status, "review");
+  assert.ok(result.json.findings.some((x) => x.rule === "bundled-research-artifacts"));
+}
+
+{
+  const dir = fixture(Array.from({ length: 501 }, () => "一行规范").join("\n"));
+  const result = audit(dir);
+  assert.equal(result.code, 1);
+  assert.ok(result.json.findings.some((x) => x.rule === "skill-md-too-long"));
+}
+
 console.log("audit-skill tests passed");

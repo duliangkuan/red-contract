@@ -1,7 +1,7 @@
 ---
 name: red-contract
 description: 红色契约：面向小红书 Red Skill 的保守批量构建与发布前审计协议。当用户说“红色契约”、要求批量新建 Red Skill、一天制作多个 Skill，或要求按 Red Skill 规范从选题推进到 dry-run 时使用；默认创建同名公开 GitHub 仓库，但最终 Red Skill 提交必须再次获得明确确认。
-version: "1.0.0"
+version: "1.1.0"
 author: 风云
 ---
 
@@ -33,11 +33,26 @@ author: 风云
 - 一句话说不清输入、输出和使用边界；
 - 为了显得强大而加入首版不需要的外部服务。
 
+## 开发契约
+
+- 先调研，后设计。所有核心规则、分类、阈值与依赖选型都要有证据；没有直接证据的内容只能标为待验证假设。
+- `SKILL.md` 是薄入口，目标不超过 300 行，超过 500 行必须拆到 `references/`。关键触发、硬边界和输出格式放在首尾附近。
+- `description` 同时写清“做什么”和“何时使用”；正文必须有正向触发、反向触发和至少两个代表性例子。
+- Skill 只声明真实可执行的能力。不要用伪代码冒充命令，也不要把 `MUST`、`BLOCKING` 等提示词当作确定性执行保障。
+- 需要精确校验时，优先提供可运行脚本与测试；宿主专属 hook、subagent 或浏览器状态不得成为未声明的隐藏依赖。
+- 只生成有实际消费者的字段、指标和中间文件；没有读取方的结构化产物不进入首版。
+
+调研路线、证据等级、差异化核查和内部设计记录格式见 [references/research-protocol.md](references/research-protocol.md)。
+
 ## 批量流程
+
+### 0. 调研与证据
+
+先按 [references/research-protocol.md](references/research-protocol.md) 完成最小调研。确认用户问题真实存在、相邻 Skill 不足以覆盖、核心机制有依据，并写清不确定性。原始语料、调研缓存和竞品副本留在发布目录之外。
 
 ### 1. 建立清单
 
-为每个选题记录：`name`、一句话用途、输入、输出、原创性、依赖、风险、推荐标签、状态。状态只能是 `idea`、`building`、`tested`、`dry-run`、`submitted`、`hold`。
+为每个选题记录：`name`、一句话用途、输入、输出、原创性、依赖、风险、推荐标签、证据路线、置信状态、版本血缘和状态。状态只能是 `idea`、`researching`、`building`、`tested`、`dry-run`、`submitted`、`hold`。
 
 ### 2. 选择最小形态
 
@@ -48,7 +63,7 @@ author: 风云
 
 ### 3. 创建 Skill
 
-目录名和 frontmatter `name` 使用同一个 kebab-case Skill ID。`SKILL.md` 至少包含清晰 description、version、author、输入、输出、工作流、错误处理、边界与隐私说明。复杂细节放入 `references/`；重复且必须可靠的逻辑放入 `scripts/`。
+目录名和 frontmatter `name` 使用同一个、长期稳定的 kebab-case Skill ID。`SKILL.md` 至少包含清晰 description、version、author、输入、输出、工作流、错误处理、正反触发边界与隐私说明。复杂细节放入 `references/`；重复且必须可靠的逻辑放入 `scripts/`。升级时保留 Git 历史并记录父版本或变更依据，不通过改名伪造新 Skill。
 
 ### 4. 验证
 
