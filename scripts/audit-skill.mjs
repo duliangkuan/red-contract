@@ -13,6 +13,12 @@ const ignoredDirs = new Set([".git", "node_modules", "dist", "build", "__pycache
 const researchDirs = new Set(["_research", "research", "corpus"]);
 const runtimeArtifactDirs = new Set(["output", "outputs", "logs", "cache", "backup", "backups", "tmp", "temp"]);
 const textExtensions = new Set([".md", ".txt", ".json", ".yaml", ".yml", ".js", ".mjs", ".cjs", ".ts", ".py"]);
+const sensitiveNames = [
+  /^\.env(?:\..+)?$/i,
+  /^(?:id_rsa|id_dsa|id_ecdsa|id_ed25519)$/i,
+  /^(?:credentials|secrets?)\.json$/i,
+  /\.(?:pem|p12|pfx|key)$/i,
+];
 const findings = [];
 
 function add(severity, rule, file, line, message) {
@@ -21,9 +27,12 @@ function add(severity, rule, file, line, message) {
 
 function walk(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (entry.name.startsWith(".") && entry.name !== ".gitignore") continue;
     if (entry.isDirectory() && ignoredDirs.has(entry.name)) continue;
     const full = path.join(dir, entry.name);
+    if (entry.isSymbolicLink()) {
+      add("high", "symbolic-link", full, 0, "发现符号链接，公开包内容可能指向目录外部");
+      continue;
+    }
     if (entry.isDirectory()) {
       const normalized = entry.name.toLowerCase();
       if (researchDirs.has(normalized)) {
@@ -40,8 +49,12 @@ function walk(dir) {
 
 function scanFile(file) {
   if (path.resolve(file) === path.resolve(process.argv[1])) return;
+  const basename = path.basename(file);
+  if (sensitiveNames.some((pattern) => pattern.test(basename)) && !/\.example$/i.test(basename)) {
+    add("high", "sensitive-file", file, 0, "发现不应进入公开包的敏感文件名");
+  }
   const ext = path.extname(file).toLowerCase();
-  if (!textExtensions.has(ext) && path.basename(file) !== ".gitignore") return;
+  if (!textExtensions.has(ext) && basename !== ".gitignore" && !basename.startsWith(".env")) return;
   let content;
   try { content = fs.readFileSync(file, "utf8"); } catch { return; }
   const lines = content.split(/\r?\n/);
@@ -84,6 +97,17 @@ if (!fs.existsSync(skillFile)) {
   else {
     for (const key of ["name", "description", "version", "author"]) {
       if (!new RegExp(`^${key}:`, "m").test(fm[1])) add("medium", `missing-${key}`, skillFile, 1, `frontmatter 缺少 ${key}`);
+    }
+    const name = fm[1].match(/^name:\s*["']?([^\r\n"']+)/m)?.[1]?.trim();
+    const version = fm[1].match(/^version:\s*["']?([^\r\n"']+)/m)?.[1]?.trim();
+    if (name && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(name)) {
+      add("high", "invalid-skill-name", skillFile, 1, "frontmatter name 必须是稳定的 kebab-case 技术标识");
+    }
+    if (name && path.basename(target) !== name) {
+      add("high", "skill-directory-mismatch", skillFile, 1, "目录名必须与 frontmatter name 一致");
+    }
+    if (version && !/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(version)) {
+      add("medium", "invalid-version", skillFile, 1, "version 应使用语义化版本号");
     }
   }
 }

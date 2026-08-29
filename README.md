@@ -189,11 +189,13 @@ red-contract/
 ## 安全边界
 
 - 不打包 Cookie、token、密码、私钥或私人数据库；
+- 不打包 `.env`、凭据文件或指向发布目录外部的符号链接；
 - 不写死个人绝对路径、主机名和内部项目状态；
 - 不公开 `_research/`、`corpus/`、抓取缓存、竞品副本和历史输出；
 - 不把医疗、法律、金融、心理或玄学内容包装成确定性诊断；
 - 不把第三方开源依赖伪装成完全原创，必须保留许可证与来源；
 - 不以批量为理由降低每个 Skill 的测试和提交标准。
+- 不从 Skill 内容或历史记录猜测原创性、转载来源和平台标签。
 
 完整门禁见 [`references/release-checklist.md`](references/release-checklist.md)，调研协议见 [`references/research-protocol.md`](references/research-protocol.md)。
 
