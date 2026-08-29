@@ -100,11 +100,12 @@ if (!fs.existsSync(skillFile)) {
     }
     const name = fm[1].match(/^name:\s*["']?([^\r\n"']+)/m)?.[1]?.trim();
     const version = fm[1].match(/^version:\s*["']?([^\r\n"']+)/m)?.[1]?.trim();
-    if (name && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(name)) {
-      add("high", "invalid-skill-name", skillFile, 1, "frontmatter name 必须是稳定的 kebab-case 技术标识");
+    const directoryName = path.basename(target);
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(directoryName)) {
+      add("high", "invalid-skill-directory", skillFile, 1, "目录名必须是稳定的 kebab-case 技术标识");
     }
-    if (name && path.basename(target) !== name) {
-      add("high", "skill-directory-mismatch", skillFile, 1, "目录名必须与 frontmatter name 一致");
+    if (name && !/[\u3400-\u9fff]/u.test(name)) {
+      add("medium", "display-name-not-chinese", skillFile, 1, "frontmatter name 应使用清楚自然的中文展示名");
     }
     if (version && !/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(version)) {
       add("medium", "invalid-version", skillFile, 1, "version 应使用语义化版本号");

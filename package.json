@@ -1,0 +1,7 @@
+{
+  "type": "module",
+  "scripts": {
+    "audit": "node scripts/audit-skill.js",
+    "test": "node scripts/audit-skill.test.js"
+  }
+}

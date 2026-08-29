@@ -4,13 +4,13 @@ import os from "node:os";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 
-const auditor = new URL("./audit-skill.mjs", import.meta.url).pathname.replace(/^\/(.:)/, "$1");
+const auditor = new URL("./audit-skill.js", import.meta.url).pathname.replace(/^\/(.:)/, "$1");
 
 function fixture(extra = "") {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "red-contract-test-"));
   const dir = path.join(root, "clean-skill");
   fs.mkdirSync(dir);
-  fs.writeFileSync(path.join(dir, "SKILL.md"), `---\nname: clean-skill\ndescription: 一个干净的测试 Skill。\nversion: "1.0.0"\nauthor: 测试\n---\n\n# Test\n${extra}\n`);
+  fs.writeFileSync(path.join(dir, "SKILL.md"), `---\nname: 干净技能\ndescription: 一个干净的测试 Skill。\nversion: "1.0.0"\nauthor: 测试\n---\n\n# Test\n${extra}\n`);
   return dir;
 }
 
@@ -51,12 +51,12 @@ function audit(dir) {
 
 {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "red-contract-test-"));
-  const dir = path.join(root, "wrong-directory");
+  const dir = path.join(root, "wrong_directory");
   fs.mkdirSync(dir);
-  fs.writeFileSync(path.join(dir, "SKILL.md"), "---\nname: clean-skill\ndescription: 目录名不一致。\nversion: 1.0.0\nauthor: 测试\n---\n");
+  fs.writeFileSync(path.join(dir, "SKILL.md"), "---\nname: 干净技能\ndescription: 目录名不合法。\nversion: 1.0.0\nauthor: 测试\n---\n");
   const result = audit(dir);
   assert.equal(result.code, 1);
-  assert.ok(result.json.findings.some((x) => x.rule === "skill-directory-mismatch"));
+  assert.ok(result.json.findings.some((x) => x.rule === "invalid-skill-directory"));
 }
 
 {

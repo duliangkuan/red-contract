@@ -82,7 +82,7 @@
 ### 2. 中文展示，技术 ID 独立
 
 - 用户可见的名称、简介、用途、输入输出和错误提示默认使用中文；
-- 目录名、Skill ID 和 frontmatter `name` 使用稳定的 kebab-case 技术标识；
+- frontmatter `name` 使用中文展示名，目录名和 Skill ID 使用稳定的 kebab-case 技术标识；
 - 英文仅保留给代码、命令、API、包名、协议名和必要专有名词。
 
 例如：发布名称使用“人类图人格测试与完整解读”，技术 ID 使用 `human-design-personality-test`。
@@ -131,7 +131,7 @@ git clone https://github.com/duliangkuan/red-contract.git red-contract
 
 ```bash
 cd red-contract
-node scripts/audit-skill.mjs <目标-Skill-目录>
+node scripts/audit-skill.js <目标-Skill-目录>
 ```
 
 审计结果有三种状态：
@@ -145,7 +145,7 @@ node scripts/audit-skill.mjs <目标-Skill-目录>
 ### 3. 运行审计器测试
 
 ```bash
-node scripts/audit-skill.test.mjs
+npm test
 ```
 
 ---
@@ -175,8 +175,8 @@ red-contract/
 │   ├── research-protocol.md         # 调研、证据与版本血缘
 │   └── release-checklist.md         # 保守发布检查表
 ├── scripts/
-│   ├── audit-skill.mjs              # 静态审计器
-│   └── audit-skill.test.mjs         # 审计器测试
+│   ├── audit-skill.js               # 静态审计器
+│   └── audit-skill.test.js          # 审计器测试
 ├── docs/
 │   └── architecture.svg             # 架构图
 └── assets/                          # 公众号、微信、交流群与赞赏码
